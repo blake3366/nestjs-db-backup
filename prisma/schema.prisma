@@ -22,13 +22,14 @@ datasource db {
 // contruct table
 model User {
   id    Int     @id @default(autoincrement())
-  name  String? // ? -> 可不填可填
+  name  String? // nullable name field
   email String  @unique
   password String
   role  String  @default("user")
-  posts Post[] // one to many relation to Post model
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  deletedAt DateTime?
+  posts Post[] // one to many relation to Post model
   profile Profile? // one to many relation to Profile model
 }
 

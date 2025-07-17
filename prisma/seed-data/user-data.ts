@@ -1,6 +1,5 @@
 export const users = [
     {
-        id: 1,
         name: 'John Doe',
         email: 'john.doe@example.com',
         password: 'hashed_password_1',
@@ -21,7 +20,6 @@ export const users = [
         ],
     },
     {
-        id: 2,
         name: 'Jane Smith',
         email: 'jane.smith@example.com',
         password: 'hashed_password_2',
@@ -37,7 +35,6 @@ export const users = [
         ],
     },
     {
-        id: 3,
         name: 'Alex Johnson',
         email: 'alex.johnson@example.com',
         password: 'hashed_password_3',
@@ -58,7 +55,6 @@ export const users = [
         ],
     },
     {
-        id: 4,
         name: 'Mei Li',
         email: 'mei.li@example.com',
         password: 'hashed_password_4',
@@ -74,7 +70,6 @@ export const users = [
         ],
     },
     {
-        id: 5,
         name: 'Carlos Rodriguez',
         email: 'carlos.rodriguez@example.com',
         password: 'hashed_password_5',
@@ -84,7 +79,6 @@ export const users = [
         posts: []
     },
     {
-        id: 6,
         name: '田中健太',
         email: 'kenta.tanaka@example.com',
         password: 'hashed_password_6',
