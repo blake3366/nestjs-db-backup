@@ -4,8 +4,8 @@ import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 
-@ApiTags('example') 
-@Controller('user')
+@ApiTags('User') 
+@Controller('user') // prefix for all routes in this controller
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
