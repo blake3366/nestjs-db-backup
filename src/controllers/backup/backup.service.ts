@@ -1,4 +1,5 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
+import { Cron, CronExpression } from '@nestjs/schedule';
 import { exec } from 'child_process';
 import { promisify } from 'util';
 import { FileStorageService } from '../../service/file-storage/file-storage.service';
@@ -12,11 +13,12 @@ const pgDumpPath = '/opt/homebrew/opt/postgresql@16/bin/pg_dump'; // PostgreSQL
 @Injectable()
 export class BackupService {
   constructor(private readonly fileStorage: FileStorageService) {}
+  private readonly logger = new Logger(BackupService.name);
 
   async backupDatabase(): Promise<string> {
     const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-    const filename = `backup-${timestamp}.sql`;
-    const backupDir = path.join(process.cwd(), 'storage');
+    const filename = `${process.env.DB_NAME}-${timestamp}.sql`;
+    const backupDir = path.resolve(process.env.BACKUP_DIR || 'storage');
     const filePath = path.join(backupDir, filename);
 
     const dbName = process.env.DB_NAME;
@@ -30,5 +32,11 @@ export class BackupService {
 
     await execAsync(dumpCommand);
     return filePath;
+  }
+  @Cron('*/1 * * * *')
+  async handleCron() {
+    this.logger.log('📅 Running daily database backup...');
+    await this.backupDatabase();
+    this.logger.log('✅ Daily database backup completed.');
   }
 }

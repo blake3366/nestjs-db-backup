@@ -11,7 +11,7 @@ export class BackupController {
   async createBackup() {
     const path = await this.backupService.backupDatabase();
     return {
-      message: '備份完成',
+      message: 'Backup created successfully',
       path,
     };
   }
