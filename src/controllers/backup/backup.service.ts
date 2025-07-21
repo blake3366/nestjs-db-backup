@@ -4,6 +4,7 @@ import { exec } from 'child_process';
 import { promisify } from 'util';
 import { FileStorageService } from '../../service/file-storage/file-storage.service';
 import * as path from 'path';
+import { logger } from '../../utils/logger'; // 注意相對路徑
 
 const execAsync = promisify(exec);
 const pgDumpPath = '/opt/homebrew/opt/postgresql@16/bin/pg_dump'; // PostgreSQL
@@ -35,8 +36,12 @@ export class BackupService {
   }
   @Cron('*/1 * * * *')
   async handleCron() {
-    this.logger.log('📅 Running daily database backup...');
-    await this.backupDatabase();
-    this.logger.log('✅ Daily database backup completed.');
+    logger.info('📅 Running daily database backup...');
+    try {
+      const filePath = await this.backupDatabase();
+      logger.info(`✅ Backup success: ${filePath}`);
+    } catch (error) {
+      logger.error(`❌ Backup failed: ${error.message}`);
+    }
   }
 }
