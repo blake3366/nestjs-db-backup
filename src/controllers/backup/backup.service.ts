@@ -7,8 +7,8 @@ import * as path from 'path';
 import { logger } from '../../utils/logger'; // 注意相對路徑
 
 const execAsync = promisify(exec);
-const pgDumpPath = '/opt/homebrew/opt/postgresql@16/bin/pg_dump'; // PostgreSQL
-// const pgDumpPath = 'pg_dump'; // PostgreSQL (if in PATH)
+// const pgDumpPath = '/opt/homebrew/opt/postgresql@16/bin/pg_dump'; // PostgreSQL
+const pgDumpPath = 'pg_dump'; // PostgreSQL (if in PATH)
 // const mysqldumpPath = 'mysqldump'; // MySQL
 
 @Injectable()
@@ -34,7 +34,7 @@ export class BackupService {
     await execAsync(dumpCommand);
     return filePath;
   }
-  @Cron('*/1 * * * *')
+  @Cron(CronExpression.EVERY_DAY_AT_8AM ) // every day at 8 AM backup
   async handleCron() {
     logger.info('📅 Running daily database backup...');
     try {
